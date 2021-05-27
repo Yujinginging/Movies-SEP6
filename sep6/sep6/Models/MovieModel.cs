@@ -1,5 +1,5 @@
 
-namespace Movies.Models
+namespace sep6.Models
 {
   public class Rootobject
   {

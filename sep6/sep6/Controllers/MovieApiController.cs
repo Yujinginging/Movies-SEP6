@@ -4,14 +4,14 @@ using System.Net;
 using System.IO;
 using System.Text;
 
-using Movies.Models;
+using sep6.Models;
 using Nancy.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace Movies.Controllers
+namespace sep6.Controllers
 {
-    public class methods
+    public class Methods
     {
         public static T FromJSON<T>(string jsonString)
         {
@@ -62,7 +62,7 @@ namespace Movies.Controllers
             string json = GetObjFromApi(title);
             Rootobject obj = new Rootobject();
 
-            Rootobject result = (Rootobject)methods.FromJSON<Rootobject>(json);
+            Rootobject result = (Rootobject)Methods.FromJSON<Rootobject>(json);
 
             HttpWebRequest request2 = (HttpWebRequest)WebRequest.Create(result.Poster);
             request2.Method = "GET";
