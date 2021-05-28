@@ -14,6 +14,7 @@ export class MovieComponent implements OnInit {
   public baseUrl: string;
 
   public GetObjFromApi: Array<any> = [];
+  public GetMeans: Array<any> = [];
 
   public movieName: any = '';
   //public test: any = '';

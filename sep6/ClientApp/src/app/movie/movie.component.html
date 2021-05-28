@@ -29,16 +29,14 @@
           <td>Votes:</td>
           <td>Released:</td>
           <td>Runtime:</td>
-          <td>Genre:</td>
-          <td>Writer:</td>
           <td>Actors:</td>
+          <td>Stars:</td>
           <td>Plot:</td>
           <td>Language:</td>
           <td>Country:</td>
           <td>Awards:</td>
           <!--<td>Poster:</td>-->
           <td>BoxOffice:</td>
-          <td>Response:</td>
         </tr>
         <tr>
           <td>{{ searchedMovie.Title }}</td>
@@ -48,16 +46,14 @@
           <td>{{ searchedMovie.imdbVotes}}</td>
           <td>{{ searchedMovie.Released}}</td>
           <td>{{ searchedMovie.Runtime }}</td>
-          <td>{{ searchedMovie.Genre }}</td>
-          <td>{{ searchedMovie.Writer }}</td>
           <td>{{ searchedMovie.Actors }}</td>
+          <td></td>
           <td>{{ searchedMovie.Plot }}</td>
           <td>{{ searchedMovie.Language }}</td>
           <td>{{ searchedMovie.Country }}</td>
           <td>{{ searchedMovie.Awards }}</td>
           <!--<td><img class="img-getposter" [src]="imgsrc" /> </td>-->
           <td>{{ searchedMovie.BoxOffice }}</td>
-          <td>{{ searchedMovie.Response }}</td>
         </tr>
       </tbody>
     </table>
@@ -80,15 +76,10 @@
       </div>
     </div>
   </div>
-  <!--toplist from a selected time period-->
+  <!--toplist for ratings-->
   <div>
-    <h2>From time period</h2>
+    <h2>TOP10 Movies</h2>
 
-    <div>
-      <span>From: </span><input class="" type="number" [(ngModel)]="yearOne">
-      <span>To: </span><input class="" type="number" [(ngModel)]="yearTwo">
-      <button class="searchBtn" type="button" (click)="searchByTime()">Search</button>
-    </div>
     <div class=" timeperiod_rating">
       <!--TODO: list for rating-->
       <h3>Based on ratings</h3>
@@ -99,12 +90,12 @@
       </ul>
     </div>
 
-
+    <!-- list for stars-->
     <div class="timeperiod_stars">
       <h3>Based on stars</h3>
     </div>
 
-
+    <!-- list for votes-->
     <div class="timeperiod_vote">
       <h3>Based on votes</h3>
       <ul class="topByVotes">
@@ -115,5 +106,35 @@
     </div>
   </div>
 
+  <!--mean table-->
+  <div>
+    <table>
+      <caption>END</caption>
+      <thead>
+        <tr>
+          <th>Means Table:</th>
+        </tr>
+      </thead>
+      <tbody *ngFor="let mean of GetMeans ">
+        <tr class="tbl_titleNames">
+          <!--<td> item.key }}</td>-->
 
+          <td>Categories:</td>
+          <td>Mean values:</td>
+        </tr>
+        <tr>
+          <td>Ratings</td>
+          <td>{{ mean.Rating }}</td>
+        </tr>
+        <tr>
+          <td>Stars</td>
+          <td>{{ mean.Star }}</td>
+        </tr>
+        <tr>
+          <td>Votes</td>
+          <td>{{ mean.Vote }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </body>
