@@ -84,7 +84,7 @@
       <!--TODO: list for rating-->
       <h3>Based on ratings</h3>
       <ul class="topByRatings">
-        <li *ngFor="let rating of ratings">
+        <li *ngFor="let rating of GetTop10ByRatings">
           {{rating}}
         </li>
       </ul>
@@ -93,13 +93,18 @@
     <!-- list for stars-->
     <div class="timeperiod_stars">
       <h3>Based on stars</h3>
+      <ul class="topBystars">
+        <li *ngFor="let star of GetTop10ByStars">
+          {{star}}
+        </li>
+      </ul>
     </div>
 
     <!-- list for votes-->
     <div class="timeperiod_vote">
       <h3>Based on votes</h3>
       <ul class="topByVotes">
-        <li *ngFor="let vote of votes">
+        <li *ngFor="let vote of GetTop10ByVotes">
           {{vote}}
         </li>
       </ul>
@@ -144,10 +149,10 @@
   </div>
 
 <!--charts-->
-  <div>
+  
 <!--ratings and votes-->
     <div id="chartContainerRatingAndVote" style="height: 400px; width: 650px; margin-top: 30px;"></div>
 <!--stars-->
     <div id="chartContainerStars" style="height: 400px; width: 650px; margin-top: 30px;"></div>
-  </div>
+  
 </body>
