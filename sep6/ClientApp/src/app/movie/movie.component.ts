@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { HttpClient, HttpParams, HttpHandler, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+
 import * as CanvasJS from '../../assets/canvasjs.min.js';
 
 
@@ -213,14 +213,9 @@ export class MovieComponent implements OnInit {
     this.GetObjFromApi = []; //refresh when search again
     this.http.get<string>(this.baseUrl + 'MovieApi/GetObjFromApi/?Title=' + movieName)
       .subscribe(result => {
-        //this.ms.push(result);
         this.GetObjFromApi.push(result);
         this.ms.push(result);
       }, error => console.error(error));
-    /*this.http.get<string>(this.baseUrl + 'MovieApi/GetImg/?Title=' + movieName)
-      .subscribe(result => {
-        this.imgsrc=result;
-      }, error => console.error(error));*/
     
   }
   add() {
@@ -232,13 +227,7 @@ export class MovieComponent implements OnInit {
   remove(a) { //give value i to a
     this.list.splice(a, 1); //delete
   }
-  searchByTime() {
-    /*this.http.get<string[]>(this.baseUrl + 'api/SepSixMovies/MoviesPerTimeAndRating').subscribe(result => {
-      this.MoviesPerTimeAndRating = result;
-    }, error => console.error(error));*/
 
-    //this.ratings.push(this.yearOne, this.yearTwo);
-  }
 }
 
 interface Rootobject {
@@ -257,16 +246,16 @@ interface Rootobject {
   Awards: string;
   Poster: string;
   Ratings: Rating[];
-Metascore: string;
-imdbRating: string;
-imdbVotes: string;
-imdbID: string;
-Type: string;
-DVD: string;
-BoxOffice: string;
-Production: string;
-Website: string;
-Response: string;
+  Metascore: string;
+  imdbRating: string;
+  imdbVotes: string;
+  imdbID: string;
+  Type: string;
+  DVD: string;
+  BoxOffice: string;
+  Production: string;
+  Website: string;
+  Response: string;
 }
 
 interface Rating {
