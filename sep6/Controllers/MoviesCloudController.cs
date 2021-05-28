@@ -13,68 +13,122 @@ namespace sep6.Controllers
     public class MoviesCloudController : Controller
     {
        
-        //1.GET: MoviesCloud/MoviesPerYear
+        //1.GET: MoviesCloud/GetTopTenMoviesByRatings
         [HttpGet("[action]")]
-        public Dictionary<float, int> MoviesPerYear()
+        public List<string> GetTopTenMoviesByRatings()
+        {
+            var context = new MoviesCloudDBContext();
+            return context.MoviesCloud.OrderBy(i => i.Ratings).Select(f => f.Name).Take(10).ToList();
+        }
+
+        //2.GET: MoviesCloud/GetTopTenMoviesByVotes
+        [HttpGet("[action]")]
+        public List<string> GetTopTenMoviesByVotes()
         {
             var context = new MoviesCloudDBContext();
 
-            return context.MoviesCloud.Select(f => f.Year).ToList().GroupBy(m => m).OrderBy(g => g.Key).ToDictionary(g => g.Key, g => g.Count());
+            return context.MoviesCloud.OrderBy(i => i.Votings).Select(f => f.Name).Take(10).ToList();
         }
 
-        //2.GET: MoviesCloud/MoviesPerStars
+        //3.GET: MoviesCloud/GetTopTenMoviesByStars
         [HttpGet("[action]")]
-        public Dictionary<float, int> MoviesPerStars()
+        public List<string> GetTopTenMoviesByStars()
         {
             var context = new MoviesCloudDBContext();
 
-            return context.MoviesCloud.Select(f => f.Stars).ToList().GroupBy(m => m).OrderBy(g => g.Key).ToDictionary(g => g.Key, g => g.Count());
+            return context.MoviesCloud.OrderBy(i => i.Stars).Select(f => f.Name).Take(10).ToList();
         }
 
-        //3.GET: MoviesCloud/MoviesPerVotings
+        //4.GET: MoviesCloud/GetRatings
         [HttpGet("[action]")]
-        public Dictionary<float, int> MoviesPerVotings()
+        public List<float> GetRatings()
         {
             var context = new MoviesCloudDBContext();
 
-            return context.MoviesCloud.Select(f => f.Votings).ToList().GroupBy(m => m).OrderBy(g => g.Key).ToDictionary(g => g.Key, g => g.Count());
+            return context.MoviesCloud.Select(f => f.Ratings).ToList();
         }
 
-        //4.GET: MoviesCloud/MoviesTopTenRatings
+        //5.GET:MoviesCloud/GetMoviesNames
         [HttpGet("[action]")]
-        public List<float> MoviesTopTenRatings()
+        public List<string> GetMoviesNames()
         {
             var context = new MoviesCloudDBContext();
 
-            return context.MoviesCloud.Select(f => f.Ratings).Take(10).ToList();
+            return context.MoviesCloud.Select(f => f.Name).ToList(); 
         }
-
-        //5.GET:MoviesCloud/GetTopTenMovies
+        //6.GET:MoviesCloud/GetVotes
         [HttpGet("[action]")]
-        public List<string> GetTopTenMovies()
+        public List<float> GetVotes()
         {
             var context = new MoviesCloudDBContext();
 
-            return context.MoviesCloud.Select(f => f.Name).Take(10).ToList(); ;
+            return context.MoviesCloud.Select(f => f.Votings).ToList(); 
         }
-        //6.GET:MoviesCloud/GetTopTenVotes
+        //7.GET:MoviesCloud/GetStars
         [HttpGet("[action]")]
-        public List<float> GetTopTenVotes()
+        public List<float> GetStars()
         {
             var context = new MoviesCloudDBContext();
 
-            return context.MoviesCloud.Select(f => f.Votings).Take(10).ToList(); ;
+            return context.MoviesCloud.Select(f => f.Stars).ToList(); 
         }
-        //7.GET:MoviesCloud/GetTopTenStars
+
+        //
         [HttpGet("[action]")]
-        public List<float> GetTopTenStars()
+        public List<MoviesCloud> GetAllMovies()
         {
             var context = new MoviesCloudDBContext();
 
-            return context.MoviesCloud.Select(f => f.Stars).Take(10).ToList(); ;
+
+            return context.MoviesCloud.ToList();
         }
 
+        //9.GET:MoviesCloud/GetMeanOfRatings
+        [HttpGet("[action]")]
+        public double GetMeanOfRatings()
+        {
+            var context = new MoviesCloudDBContext();
 
+            var ratings = context.MoviesCloud.Select(f => f.Ratings).ToList();
+            var sum = 0;
+            for(int i = 0; i < ratings.Count(); i++)
+            {
+                sum = (int)(sum + ratings[i]);
+            }
+            var average = (double)(sum / ratings.Count());
+            return average;
+        }
+
+        //9.GET:MoviesCloud/GetMeanOfVotes
+        [HttpGet("[action]")]
+        public double GetMeanOfVotes()
+        {
+            var context = new MoviesCloudDBContext();
+
+            var votes = context.MoviesCloud.Select(f => f.Votings).ToList();
+            var sum = 0;
+            for (int i = 0; i < votes.Count(); i++)
+            {
+                sum = (int)(sum + votes[i]);
+            }
+            var average = (double)(sum / votes.Count());
+            return average;
+        }
+        //9.GET:MoviesCloud/GetMeanOfStars
+        [HttpGet("[action]")]
+        public double GetMeanOfStars()
+        {
+            var context = new MoviesCloudDBContext();
+
+            var stars = context.MoviesCloud.Select(f => f.Stars).ToList();
+            var sum = 0;
+            for (int i = 0; i < stars.Count(); i++)
+            {
+                sum = (int)(sum + stars[i]);
+            }
+            var average = (double)(sum / stars.Count());
+            return average;
+        }
 
     }
 }
