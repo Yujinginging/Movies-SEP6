@@ -1,6 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { HttpClient, HttpParams, HttpHandler, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import * as CanvasJS from '../../assets/canvasjs.min.js';
+
+
 
 @Component({
   selector: 'app-movie',
@@ -26,26 +29,129 @@ export class MovieComponent implements OnInit {
   public ratings = [];
   public yearOne: number = null;
   public yearTwo: number = null;
-  //save data temporarily
-  private myRequest?: Observable<Array<any>>;
+
+  //loadcharts
+  public ratingsToTopTenMovies: Map<string, number>;
+
+
+
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this.http = http;
     this.baseUrl = baseUrl;
   }
 
   ngOnInit(): void {
-    /*this.http.get<Array<any>>(this.baseUrl + 'MovieApi/GetTopTenList').subscribe(data => {
-      this.list.push(data);
-    }, error => console.error(error));*/
+    this.loadCharts();
+    this.loadMeans();
+    this.loadTopTen();
   }
-  //TODO:acess "cached" req
-/*  public doRequest(): Observable<Array<any>> {
-    if (!this.myRequest) {
-      this.myRequest = this.http.get(this.baseUrl + 'savedList').pipe(
-      shareReplay(1))
-    }
-    return this.myRequest;
-  }*/
+  //
+  loadMeans() {
+    //by ratings
+    //by votes
+    //by stars
+  }
+
+  loadTopTen() {
+    //by ratings
+    //by votes
+    //by stars
+  }
+  loadCharts() {
+    //by ratings & votes
+
+    this.http.get<Map<string, number>>(this.baseUrl + '').subscribe(result => {
+      this.ratingsToTopTenMovies = result;
+    }, error => console.error(error));
+
+    let dataPointsRTMovies = [];
+    let dataPointsVTMovies = [];
+
+    let chart = new CanvasJS.Chart("chartContainerRatingAndVote", {
+      animationEnabled: true,
+      title: {
+        text: "Ratings of TOP10 movies"
+      },
+      axisX: {
+        title: "Title",
+        interval: 1
+      },
+      axisY: {
+        title: "Ratings"
+      },
+      data: [{
+        type: "column",
+        legendText: "RT",
+        showInLegend: true,
+        dataPoints: dataPointsRTMovies,
+        color: "#2E86C1"
+      },
+      {
+        type: "column",
+        legendText: "VT",
+        showInLegend: true,
+        dataPoints: dataPointsVTMovies,
+        color: "#C13B2E"
+      },
+     
+      ]
+    });
+    chart.render();
+
+    this.http.get<Map<string, number>>(this.baseUrl + '').subscribe(result => {
+
+      Object.keys(result).forEach(function (key) {
+        dataPointsRTMovies.push({ label: key, y: result[key] })
+      });
+
+      chart.render();
+    }, error => console.error(error));
+    this.http.get<Map<string, number>>(this.baseUrl + '').subscribe(result => {
+
+      Object.keys(result).forEach(function (key) {
+        dataPointsVTMovies.push({ label: key, y: result[key] })
+      });
+
+      chart.render();
+    }, error => console.error(error));
+
+    //by stars
+    let dataPointsST = [];
+    let chartStar = new CanvasJS.Chart("chartContainerStars", {
+      animationEnabled: true,
+      title: {
+        text: "Stars of TOP10 movies"
+      },
+      axisX: {
+        title: "Title",
+        interval: 1
+      },
+      axisY: {
+        title: "Number of stars"
+      },
+      data: [{
+        type: "column",
+        legendText: "JFK",
+        showInLegend: true,
+        dataPoints: dataPointsST,
+        color: "#2E86C1"
+      },
+      
+      ]
+    });
+    chartStar.render();
+
+    this.http.get<Map<string, number>>(this.baseUrl + 'api/Nycflights/FlightsToTopTenDestinationsFromJFK').subscribe(result => {
+
+      Object.keys(result).forEach(function (key) {
+        dataPointsST.push({ label: key, y: result[key] })
+      });
+
+      chartStar.render();
+    }, error => console.error(error));
+  }
+
+  //
   searchMovie(movieName: string) {
     this.GetObjFromApi = []; //refresh when search again
     this.http.get<string>(this.baseUrl + 'MovieApi/GetObjFromApi/?Title=' + movieName)
@@ -61,7 +167,9 @@ export class MovieComponent implements OnInit {
     
   }
   add() {
-    this.list.push(this.ms[this.ms.length - 1]);
+    if (this.ms.length > 0) {
+      this.list.push(this.ms[this.ms.length - 1]);
+    }
     
   }
   remove(a) { //give value i to a

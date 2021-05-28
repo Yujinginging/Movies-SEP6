@@ -119,22 +119,35 @@
         <tr class="tbl_titleNames">
           <!--<td> item.key }}</td>-->
 
-          <td>Categories:</td>
-          <td>Mean values:</td>
+          <td>Categories</td>
+          <td>Mean values</td>
         </tr>
         <tr>
           <td>Ratings</td>
           <td>{{ mean.Rating }}</td>
+          <!--<td>6</td>-->
         </tr>
         <tr>
           <td>Stars</td>
           <td>{{ mean.Star }}</td>
+          <!--<td>7</td>-->
+
         </tr>
         <tr>
           <td>Votes</td>
           <td>{{ mean.Vote }}</td>
+         <!-- <td>8</td>-->
+
         </tr>
       </tbody>
     </table>
+  </div>
+
+<!--charts-->
+  <div>
+<!--ratings and votes-->
+    <div id="chartContainerRatingAndVote" style="height: 400px; width: 650px; margin-top: 30px;"></div>
+<!--stars-->
+    <div id="chartContainerStars" style="height: 400px; width: 650px; margin-top: 30px;"></div>
   </div>
 </body>
