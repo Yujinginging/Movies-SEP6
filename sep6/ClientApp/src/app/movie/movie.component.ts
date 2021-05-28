@@ -94,6 +94,7 @@ export class MovieComponent implements OnInit {
     let dataPointsRTMovies = [];
     let dataPointsVTMovies = [];
     let dataPointsMovies = [];
+    let dataPointsST = [];
 
     let chart = new CanvasJS.Chart("chartContainerRating", {
       animationEnabled: true,
@@ -159,17 +160,19 @@ export class MovieComponent implements OnInit {
       ]
     });
     chartVotes.render();
-    this.http.get<Map<string, number>>(this.baseUrl + '').subscribe(result => {
+ 
+
+    this.http.get<Map<number, number>>(this.baseUrl + 'MoviesCloud/GetVotes').subscribe(result => {
 
       Object.keys(result).forEach(function (key) {
-        dataPointsVTMovies.push({ label: key, y: result[key] })
+        dataPointsVTMovies.push({ label: dataPointsMovies[key], y: result[key] })
       });
 
       chartVotes.render();
     }, error => console.error(error));
 
     //by stars
-    let dataPointsST = [];
+    
     let chartStar = new CanvasJS.Chart("chartContainerStars", {
       animationEnabled: true,
       title: {
@@ -184,7 +187,7 @@ export class MovieComponent implements OnInit {
       },
       data: [{
         type: "column",
-        legendText: "JFK",
+        legendText: "ST",
         showInLegend: true,
         dataPoints: dataPointsST,
         color: "#2E86C1"
@@ -193,11 +196,12 @@ export class MovieComponent implements OnInit {
       ]
     });
     chartStar.render();
+    
 
-    this.http.get<Map<string, number>>(this.baseUrl + 'api/Nycflights/FlightsToTopTenDestinationsFromJFK').subscribe(result => {
+    this.http.get<Map<number, number>>(this.baseUrl + 'MoviesCloud/GetStars').subscribe(result => {
 
       Object.keys(result).forEach(function (key) {
-        dataPointsST.push({ label: key, y: result[key] })
+        dataPointsST.push({ label: dataPointsMovies[key], y: result[key] })
       });
 
       chartStar.render();
