@@ -8,6 +8,7 @@ using sep6.Models;
 using Nancy.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Net.Http;
 
 namespace sep6.Controllers
 {
@@ -18,6 +19,25 @@ namespace sep6.Controllers
             JavaScriptSerializer json = new JavaScriptSerializer();
             return json.Deserialize<T>(jsonString);
         }
+    }
+    public class ToJson
+    {
+        public static string ToJSON(Object obj)
+        {
+            String str;
+            if (obj is String || obj is Char)
+            {
+                str = obj.ToString();
+            }
+            else
+            {
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+                str = serializer.Serialize(obj);
+            }
+            HttpResponseMessage result = new HttpResponseMessage { Content = new StringContent(str, Encoding.GetEncoding("UTF-8"), "application/json") };
+            return str;
+        }
+
     }
 
     [Route("[controller]")]

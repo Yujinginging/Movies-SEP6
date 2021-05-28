@@ -63,7 +63,7 @@ export class MovieComponent implements OnInit {
     //by stars
   }
   loadCharts() {
-    //by ratings & votes
+    //by ratings 
 
     this.http.get<Map<string, number>>(this.baseUrl + '').subscribe(result => {
       this.ratingsToTopTenMovies = result;
@@ -72,7 +72,7 @@ export class MovieComponent implements OnInit {
     let dataPointsRTMovies = [];
     let dataPointsVTMovies = [];
 
-    let chart = new CanvasJS.Chart("chartContainerRatingAndVote", {
+    let chart = new CanvasJS.Chart("chartContainerRating", {
       animationEnabled: true,
       title: {
         text: "Ratings of TOP10 movies"
@@ -88,16 +88,14 @@ export class MovieComponent implements OnInit {
         type: "column",
         legendText: "RT",
         showInLegend: true,
-        dataPoints: dataPointsRTMovies,
+        dataPoints: [
+          { x: 1, y: 12, label: "ORD"},
+                                { x: 2, y: 12, label: "LAX" },
+{ x: 3, y: 11, label: "MIA" },
+{ x: 4, y: 10, label: "ATL" },
+                            ],
         color: "#2E86C1"
-      },
-      {
-        type: "column",
-        legendText: "VT",
-        showInLegend: true,
-        dataPoints: dataPointsVTMovies,
-        color: "#C13B2E"
-      },
+      }
      
       ]
     });
@@ -111,13 +109,39 @@ export class MovieComponent implements OnInit {
 
       chart.render();
     }, error => console.error(error));
+
+    //votes
+    let chartVotes = new CanvasJS.Chart("chartContainerVotes", {
+      animationEnabled: true,
+      title: {
+        text: "Votes of TOP10 movies"
+      },
+      axisX: {
+        title: "Title",
+        interval: 1
+      },
+      axisY: {
+        title: "Ratings"
+      },
+      data: [
+      {
+        type: "column",
+        legendText: "VT",
+        showInLegend: true,
+        dataPoints: dataPointsVTMovies,
+        color: "#C13B2E"
+      },
+
+      ]
+    });
+    chartVotes.render();
     this.http.get<Map<string, number>>(this.baseUrl + '').subscribe(result => {
 
       Object.keys(result).forEach(function (key) {
         dataPointsVTMovies.push({ label: key, y: result[key] })
       });
 
-      chart.render();
+      chartVotes.render();
     }, error => console.error(error));
 
     //by stars
