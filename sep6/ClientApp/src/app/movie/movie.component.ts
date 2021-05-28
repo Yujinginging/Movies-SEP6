@@ -91,17 +91,14 @@ export class MovieComponent implements OnInit {
   loadCharts() {
     //by ratings 
 
-    this.http.get<Map<string, number>>(this.baseUrl + '').subscribe(result => {
-      this.ratingsToTopTenMovies = result;
-    }, error => console.error(error));
-
     let dataPointsRTMovies = [];
     let dataPointsVTMovies = [];
+    let dataPointsMovies = [];
 
     let chart = new CanvasJS.Chart("chartContainerRating", {
       animationEnabled: true,
       title: {
-        text: "Ratings of TOP10 movies"
+        text: "Ratings of  movies"
       },
       axisX: {
         title: "Title",
@@ -114,23 +111,24 @@ export class MovieComponent implements OnInit {
         type: "column",
         legendText: "RT",
         showInLegend: true,
-        dataPoints: [
-          { x: 1, y: 12, label: "ORD"},
-                                { x: 2, y: 12, label: "LAX" },
-{ x: 3, y: 11, label: "MIA" },
-{ x: 4, y: 10, label: "ATL" },
-                            ],
+        dataPoints: dataPointsRTMovies,
         color: "#2E86C1"
       }
      
       ]
     });
     chart.render();
+    this.http.get<Map<number, string>>(this.baseUrl + 'MoviesCloud/GetMoviesNames').subscribe(result => {
+      Object.keys(result).forEach(function (key) {
+        dataPointsMovies.push(result[key])
+      });
 
-    this.http.get<Map<string, number>>(this.baseUrl + '').subscribe(result => {
+    }, error => console.error(error));
+
+    this.http.get<Map<number, number>>(this.baseUrl + 'MoviesCloud/GetRatings').subscribe(result => {
 
       Object.keys(result).forEach(function (key) {
-        dataPointsRTMovies.push({ label: key, y: result[key] })
+        dataPointsRTMovies.push({ label: dataPointsMovies[key], y: result[key] })
       });
 
       chart.render();
@@ -140,7 +138,7 @@ export class MovieComponent implements OnInit {
     let chartVotes = new CanvasJS.Chart("chartContainerVotes", {
       animationEnabled: true,
       title: {
-        text: "Votes of TOP10 movies"
+        text: "Votes of movies"
       },
       axisX: {
         title: "Title",
@@ -175,7 +173,7 @@ export class MovieComponent implements OnInit {
     let chartStar = new CanvasJS.Chart("chartContainerStars", {
       animationEnabled: true,
       title: {
-        text: "Stars of TOP10 movies"
+        text: "Stars of movies"
       },
       axisX: {
         title: "Title",
