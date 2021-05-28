@@ -82,7 +82,7 @@
       <!--TODO: list for rating-->
       <h3>Based on ratings</h3>
       <ul class="topByRatings">
-        <li *ngFor="let rating of GetTop10ByRatings">
+        <li *ngFor="let rating of GetTopTenMoviesByRatings">
           {{rating}}
         </li>
       </ul>
@@ -92,7 +92,7 @@
     <div class="timeperiod_stars">
       <h3>Based on stars</h3>
       <ul class="topBystars">
-        <li *ngFor="let star of GetTop10ByStars">
+        <li *ngFor="let star of GetTopTenMoviesByStars">
           {{star}}
         </li>
       </ul>
@@ -102,7 +102,7 @@
     <div class="timeperiod_vote">
       <h3>Based on votes</h3>
       <ul class="topByVotes">
-        <li *ngFor="let vote of GetTop10ByVotes">
+        <li *ngFor="let vote of GetTopTenMoviesByVotes">
           {{vote}}
         </li>
       </ul>
@@ -118,7 +118,7 @@
           <th>Means Table:</th>
         </tr>
       </thead>
-      <tbody *ngFor="let mean of GetMeans ">
+      <tbody >
         <tr class="tbl_titleNames">
           <!--<td> item.key }}</td>-->
 
@@ -127,18 +127,18 @@
         </tr>
         <tr>
           <td>Ratings</td>
-          <td>{{ mean.Rating }}</td>
+          <td ><input [(ngModel)]="meanRating" readonly/></td>
           <!--<td>6</td>-->
         </tr>
         <tr>
           <td>Stars</td>
-          <td>{{ mean.Star }}</td>
+          <td ><input [(ngModel)]="meanStar" readonly /></td>
           <!--<td>7</td>-->
 
         </tr>
         <tr>
           <td>Votes</td>
-          <td>{{ mean.Vote }}</td>
+          <td ><input [(ngModel)]="meanVote" readonly /></td>
           <!--<td>8</td>-->
 
         </tr>

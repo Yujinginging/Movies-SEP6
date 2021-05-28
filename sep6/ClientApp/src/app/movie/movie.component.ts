@@ -38,7 +38,10 @@ export class MovieComponent implements OnInit {
   //loadcharts
   public ratingsToTopTenMovies: Map<string, number>;
 
-
+  //mean
+  public meanVote: any = '';
+  public meanRating: any = '';
+  public meanStar: any = '';
 
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this.http = http;
@@ -53,8 +56,18 @@ export class MovieComponent implements OnInit {
   //
   loadMeans() {
     //by ratings
+    this.http.get<Map<string, number>>(this.baseUrl + 'MoviesCloud/GetMeanOfRatings').subscribe(result => {
+      this.meanRating = result;
+    }, error => console.error(error));
+
     //by votes
+    this.http.get<Map<string, number>>(this.baseUrl + 'MoviesCloud/GetMeanOfVotes').subscribe(result => {
+      this.meanVote = result;
+    }, error => console.error(error));
     //by stars
+    this.http.get<Map<string, number>>(this.baseUrl + 'MoviesCloud/GetMeanOfStars').subscribe(result => {
+      this.meanStar = result;
+    }, error => console.error(error));
   }
 
   loadTopTen() {
