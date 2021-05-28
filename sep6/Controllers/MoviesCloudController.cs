@@ -73,16 +73,7 @@ namespace sep6.Controllers
             return context.MoviesCloud.Select(f => f.Stars).ToList(); 
         }
 
-        //
-        [HttpGet("[action]")]
-        public List<MoviesCloud> GetAllMovies()
-        {
-            var context = new MoviesCloudDBContext();
-
-
-            return context.MoviesCloud.ToList();
-        }
-
+       
         //9.GET:MoviesCloud/GetMeanOfRatings
         [HttpGet("[action]")]
         public double GetMeanOfRatings()
