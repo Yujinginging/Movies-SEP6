@@ -224,7 +224,7 @@ export class MovieComponent implements OnInit {
     
   }
   add() {
-    if (this.ms.length > 0) {
+    if (this.ms.length > 0 && this.list.length<10) {
       this.list.push(this.ms[this.ms.length - 1]);
     }
     
