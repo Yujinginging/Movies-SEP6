@@ -42,6 +42,10 @@ export class MovieComponent implements OnInit {
   public meanVote: any = '';
   public meanRating: any = '';
   public meanStar: any = '';
+  //topten
+  public GetTopTenMoviesByRatings: Array<any> = [];
+  public GetTopTenMoviesByStars: Array<any> = [];
+  public GetTopTenMoviesByVotes: Array<any> = [];
 
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this.http = http;
@@ -72,8 +76,17 @@ export class MovieComponent implements OnInit {
 
   loadTopTen() {
     //by ratings
+    this.http.get<Array<string>>(this.baseUrl + 'MoviesCloud/GetTopTenMoviesByRatings').subscribe(result => {
+      this.GetTopTenMoviesByRatings = result;
+    }, error => console.error(error));
     //by votes
+    this.http.get<Array<string>>(this.baseUrl + 'MoviesCloud/GetTopTenMoviesByVotes').subscribe(result => {
+      this.GetTopTenMoviesByStars = result;
+    }, error => console.error(error));
     //by stars
+    this.http.get<Array<string>>(this.baseUrl + 'MoviesCloud/GetTopTenMoviesByStars').subscribe(result => {
+      this.GetTopTenMoviesByVotes = result;
+    }, error => console.error(error));
   }
   loadCharts() {
     //by ratings 
