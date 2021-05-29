@@ -154,4 +154,32 @@
   <!--stars-->
   <div id="chartContainerStars" style="height: 400px; width: 650px; margin-top: 30px;"></div>
 
+  
+    <!--search by time period-->
+    <span>From: </span><input class="" type="number" [(ngModel)]="yearOne">
+    <span>To: </span><input class="" type="number" [(ngModel)]="yearTwo">
+    <button class="searchBtn" type="button" (click)="searchByTime(yearOne,yearTwo)">Search</button>
+    <!--mean table rating -->
+    <table >
+      <caption>END</caption>
+      <thead>
+        <tr>
+          <th>Means of movies:</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="tbl_titleNames">
+
+          <td></td>
+          <td>Mean values</td>
+        </tr>
+        <tr>
+          <td>Ratings</td>
+          <td><input [(ngModel)]="meanRatingByTimePeriod" readonly /></td>
+        </tr>
+      </tbody>
+    </table>
+    <!--chart rating-->
+    <div id="chartContainerRatingsByTime" style="height: 500px; width: 800px; margin-top: 40px;"></div>
+
 </body>

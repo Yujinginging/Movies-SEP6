@@ -53,7 +53,7 @@ namespace sep6.Controllers
             _logger = logger;
         }
 
-        //1.1. GET: api/Movies/GetObjFromApi/?Title=
+        //1.1. GET: Movies/GetObjFromApi/?Title=
         [HttpGet("GetObjFromApi")]
         public string GetObjFromApi(string title)
         {
@@ -96,17 +96,7 @@ namespace sep6.Controllers
             return json2;
 
         }
-        [HttpPost("UpdateTopTenList")]
-        public void UpdateTopTenList(Array[] topList)
-        {
-            topTen = topList;
-        }
-
-        [HttpGet("GetTopTenList")]
-        public Array[] GetTopTenList()
-        {
-            return topTen;
-        }
+       
         /*[HttpGet("Test")]
         public string Test(string title)
         {

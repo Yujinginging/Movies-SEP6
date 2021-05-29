@@ -32,8 +32,10 @@ export class MovieComponent implements OnInit {
   public imgsrc: string = '';
 
   public ratings = [];
+  //
   public yearOne: number = null;
   public yearTwo: number = null;
+  public meanRatingByTimePeriod: any = '';
 
   //loadcharts
   public ratingsToTopTenMovies: Map<string, number>;
@@ -46,6 +48,9 @@ export class MovieComponent implements OnInit {
   public GetTopTenMoviesByRatings: Array<any> = [];
   public GetTopTenMoviesByStars: Array<any> = [];
   public GetTopTenMoviesByVotes: Array<any> = [];
+
+  //
+
 
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this.http = http;
@@ -94,6 +99,8 @@ export class MovieComponent implements OnInit {
     let dataPointsRTMovies = [];
     let dataPointsVTMovies = [];
     let dataPointsMovies = [];
+    let dataPointsMovies2 = [];
+    let dataPointsMovies3 = [];
     let dataPointsST = [];
 
     let chart = new CanvasJS.Chart("chartContainerRating", {
@@ -160,12 +167,18 @@ export class MovieComponent implements OnInit {
       ]
     });
     chartVotes.render();
- 
+
+    this.http.get<Map<number, string>>(this.baseUrl + 'MoviesCloud/GetMoviesNames').subscribe(result => {
+      Object.keys(result).forEach(function (key) {
+        dataPointsMovies2.push(result[key])
+      });
+
+    }, error => console.error(error));
 
     this.http.get<Map<number, number>>(this.baseUrl + 'MoviesCloud/GetVotes').subscribe(result => {
 
       Object.keys(result).forEach(function (key) {
-        dataPointsVTMovies.push({ label: dataPointsMovies[key], y: result[key] })
+        dataPointsVTMovies.push({ label: dataPointsMovies2[key], y: result[key] })
       });
 
       chartVotes.render();
@@ -197,11 +210,16 @@ export class MovieComponent implements OnInit {
     });
     chartStar.render();
     
+    this.http.get<Map<number, string>>(this.baseUrl + 'MoviesCloud/GetMoviesNames').subscribe(result => {
+      Object.keys(result).forEach(function (key) {
+        dataPointsMovies3.push(result[key])
+      });
 
+    }, error => console.error(error));
     this.http.get<Map<number, number>>(this.baseUrl + 'MoviesCloud/GetStars').subscribe(result => {
 
       Object.keys(result).forEach(function (key) {
-        dataPointsST.push({ label: dataPointsMovies[key], y: result[key] })
+        dataPointsST.push({ label: dataPointsMovies3[key], y: result[key] })
       });
 
       chartStar.render();
@@ -226,6 +244,60 @@ export class MovieComponent implements OnInit {
   }
   remove(a) { //give value i to a
     this.list.splice(a, 1); //delete
+  }
+  //searchByTime
+  searchByTime(start: number, end: number) {
+    let datapointMN = [];
+    let datapoitRBTP = [];
+    //mean
+    this.http.get<Map<string, number>>(this.baseUrl + 'MoviesCloud/GetMeanRatingByTimePeriod/?StartYear=' + start+ '&EndYear=' + end)
+      .subscribe(result => {
+        this.meanRatingByTimePeriod = result
+      }, error => console.error(error));
+    //chart
+    
+    let chartM = new CanvasJS.Chart("chartContainerRatingsByTime", {
+      animationEnabled: true,
+      title: {
+        text: "Ratings of movies by searched time period"
+      },
+      axisX: {
+        title: "Title",
+        interval: 1
+      },
+      axisY: {
+        title: "Ratings"
+      },
+      data: [{
+        type: "column",
+        legendText: "Movie name",
+        showInLegend: true,
+        dataPoints: datapoitRBTP,
+        color: "#2E86C5"
+      },
+
+      ]
+    });
+    chartM.render();
+
+    this.http.get<Map<number, string>>(this.baseUrl + 'MoviesCloud/GetMovieNamesByTimePeriod/?StartYear=' + start + '&EndYear=' + end)
+      .subscribe(result => {
+      Object.keys(result).forEach(function (key) {
+        datapointMN.push(result[key])
+      });
+
+    }, error => console.error(error));
+
+    this.http.get<Map<number, number>>(this.baseUrl + 'MoviesCloud/GetMovieRatingsByTimePeriod/?StartYear=' + start + '&EndYear=' + end)
+      .subscribe(result => {
+
+      Object.keys(result).forEach(function (key) {
+        datapoitRBTP.push({ label: datapointMN[key], y: result[key] })
+      });
+
+      chartM.render();
+    }, error => console.error(error));
+  
   }
 
 }
