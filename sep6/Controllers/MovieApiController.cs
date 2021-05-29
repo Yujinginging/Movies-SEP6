@@ -14,6 +14,7 @@ namespace sep6.Controllers
 {
     public class Methods
     {
+        //transfer json to object
         public static T FromJSON<T>(string jsonString)
         {
             JavaScriptSerializer json = new JavaScriptSerializer();
@@ -22,6 +23,7 @@ namespace sep6.Controllers
     }
     public class ToJson
     {
+        //transfer object to json file 
         public static string ToJSON(Object obj)
         {
             String str;
@@ -50,7 +52,6 @@ namespace sep6.Controllers
         {
             _logger = logger;
         }
-        //public static void Main(string[] args)
 
         //1.1. GET: api/Movies/GetObjFromApi/?Title=
         [HttpGet("GetObjFromApi")]
@@ -70,9 +71,6 @@ namespace sep6.Controllers
             stream.Close();
             response.Close();
 
-            //Rootobject obj = new Rootobject();
-
-            //Rootobject result = (Rootobject)methods.FromJSON<Rootobject>(json);
             
             return json;
         }
