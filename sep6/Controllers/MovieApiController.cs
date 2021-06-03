@@ -57,7 +57,7 @@ namespace sep6.Controllers
         [HttpGet("GetObjFromApi")]
         public string GetObjFromApi(string title)
         {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://www.omdbapi.com/?t=" + title + "&apikey=9d4b7fd4");
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://moviesserverless.azurewebsites.net/api/GetObjFromApi?title="+title);
             request.Method = "GET";
             request.ContentType = "application/json:charset=UTF-8";
 
